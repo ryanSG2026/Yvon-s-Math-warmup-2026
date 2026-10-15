@@ -1,0 +1,612 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Math Warm-up</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&display=swap">
+<style>
+/* Layout: one column (max 720px) on exercise-book grid paper; the question card is the one "sticker" object; red pen for corrections, highlighter for signal words */
+:root{
+  --paper:#F5F7FB; --grid:rgba(47,91,211,.075); --card:#FFFFFF; --ink:#17233A; --muted:#58698A; --line:#D6DEEA;
+  --pen:#2F5BD3; --pen-ink:#FFFFFF; --focus:#2F5BD3;
+  --marker:#FFEE66; --marker-ink:#17233A;
+  --red:#C23838; --red-soft:#FBEAEA; --green:#1F7D52; --green-soft:#E3F3EA;
+  --c-words:#2F5BD3; --c-eq:#7448BD; --c-int:#0D7F80; --c-pct:#B5601A;
+  --t-part:#2C9A58; --t-after:#DB8418; --t-before:#CF4040; --t-pct:#2F6FD0;
+  --f-display:"Bricolage Grotesque","Atkinson Hyperlegible",system-ui,sans-serif;
+  --f-body:"Atkinson Hyperlegible",system-ui,-apple-system,"PingFang SC","Hiragino Sans GB","Noto Sans SC",sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#0F1420; --grid:rgba(126,162,255,.06); --card:#182033; --ink:#E6ECF6; --muted:#9AA8C2; --line:#2B3650;
+  --pen:#86A6FF; --pen-ink:#0E1420; --focus:#86A6FF;
+  --marker:#6A6020; --marker-ink:#FFF6C4;
+  --red:#FF8181; --red-soft:#3A1F25; --green:#62D29C; --green-soft:#16302A;
+  --c-words:#86A6FF; --c-eq:#B597F0; --c-int:#4FC9C9; --c-pct:#F0A55E;
+  --t-part:#5CCB8D; --t-after:#F2A84D; --t-before:#FF8181; --t-pct:#73A7FF;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0F1420; --grid:rgba(126,162,255,.06); --card:#182033; --ink:#E6ECF6; --muted:#9AA8C2; --line:#2B3650;
+  --pen:#86A6FF; --pen-ink:#0E1420; --focus:#86A6FF;
+  --marker:#6A6020; --marker-ink:#FFF6C4;
+  --red:#FF8181; --red-soft:#3A1F25; --green:#62D29C; --green-soft:#16302A;
+  --c-words:#86A6FF; --c-eq:#B597F0; --c-int:#4FC9C9; --c-pct:#F0A55E;
+  --t-part:#5CCB8D; --t-after:#F2A84D; --t-before:#FF8181; --t-pct:#73A7FF;
+  color-scheme:dark}
+
+body{margin:0;background-color:var(--paper);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:26px 26px;color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.5;-webkit-text-size-adjust:100%}
+.wrap{max-width:720px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:22px 56px;display:flex;flex-direction:column;gap:24px}
+h1,h2,h3{font-family:var(--f-display);margin:0;text-wrap:balance}
+h1{font-weight:800;font-size:clamp(30px,6.4vw,42px);line-height:1.08;letter-spacing:-.015em}
+h2{font-weight:800;font-size:24px;line-height:1.15}
+h3{font-weight:700;font-size:18px}
+p{margin:0}
+.eyebrow{text-transform:uppercase;letter-spacing:.09em;font-size:12px;font-weight:700;color:var(--muted);margin-bottom:6px}
+.zh{color:var(--muted);font-size:.86em}
+.lede{margin-top:8px;max-width:58ch}
+i{font-style:italic;font-weight:inherit}
+button{font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
+button:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
+button:disabled{cursor:default}
+.btn{font-weight:700;border-radius:12px;border:2px solid var(--ink);background:var(--card);color:var(--ink);padding:12px 22px;min-height:50px;font-size:17px}
+.btn.primary{background:var(--pen);border-color:var(--pen);color:var(--pen-ink)}
+.btn.primary:focus-visible{outline-color:var(--ink)}
+.linkbtn{background:none;border:0;color:var(--muted);font-weight:700;padding:8px 4px;min-height:44px}
+
+/* home */
+.today{background:var(--card);border:2px solid var(--ink);border-radius:18px;box-shadow:5px 5px 0 var(--ink);padding:20px 22px;display:flex;flex-wrap:wrap;gap:16px 24px;align-items:center;justify-content:space-between}
+.today .meta{display:flex;flex-direction:column;gap:4px;min-width:0}
+.today .btn{font-size:19px;padding:14px 34px}
+.sec{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;margin-bottom:12px}
+.topics{display:grid;grid-template-columns:1fr;gap:12px}
+@media (min-width:540px){.topics{grid-template-columns:1fr 1fr}}
+.topic{display:flex;flex-direction:column;gap:6px;text-align:left;background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:14px 16px;min-width:0}
+.topic:hover{border-color:var(--ink)}
+.tname{display:flex;align-items:center;gap:10px;font-weight:700;font-size:18px}
+.sq{width:14px;height:14px;border-radius:4px;flex:none;background:var(--c)}
+.ex{font-size:16px;color:var(--muted)}
+.ex b{color:var(--ink)}
+.histwrap{overflow-x:auto;background:var(--card);border:1.5px solid var(--line);border-radius:14px}
+.hist{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;font-size:15px}
+.hist th,.hist td{padding:9px 14px;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap}
+.hist tr:last-child td{border-bottom:0}
+.hist th{font-size:12px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+.empty{padding:16px;color:var(--muted)}
+.focusnote{margin-top:10px;font-size:15px}
+.focusnote b{color:var(--ink)}
+
+/* quiz */
+.qbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.qbar .mode{font-weight:700}
+.count{font-variant-numeric:tabular-nums;color:var(--muted);font-weight:700}
+.dots{display:flex;flex-wrap:wrap;gap:7px}
+.dot{width:12px;height:12px;border-radius:50%;background:var(--line)}
+.dot.ok{background:var(--green)} .dot.bad{background:var(--red)}
+.dot.now{box-shadow:0 0 0 2px var(--paper),0 0 0 4px var(--ink)}
+.qcard{background:var(--card);border:2px solid var(--ink);border-radius:18px;box-shadow:5px 5px 0 var(--ink);padding:20px;display:flex;flex-direction:column;gap:18px;min-width:0}
+.chip{align-self:flex-start;display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--c)}
+.instr{font-size:17px}
+.prompt{font-size:clamp(26px,6vw,36px);font-weight:700;line-height:1.35;overflow-wrap:anywhere}
+.prompt.words{font-size:clamp(22px,5vw,28px);font-weight:700}
+.prompt.para{font-size:19px;line-height:1.6;font-weight:400;max-width:60ch}
+mark{background:var(--marker);color:var(--marker-ink);padding:0 .18em;border-radius:3px}
+.fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.08;margin:0 .08em;font-size:.82em}
+.fr>span:first-child{border-bottom:.1em solid currentColor;padding:0 .18em .04em}
+.fr>span:last-child{padding:.04em .18em 0}
+.choices{display:grid;grid-template-columns:1fr;gap:10px}
+@media (min-width:540px){.choices.two{grid-template-columns:1fr 1fr}}
+.choice{display:flex;align-items:center;gap:12px;text-align:left;background:var(--card);border:2px solid var(--line);border-radius:12px;padding:12px 14px;min-height:58px;font-size:22px;min-width:0}
+.choice.txt{font-size:18px}
+.choice:not(:disabled):hover{border-color:var(--ink)}
+.choice .key{flex:none;width:28px;height:28px;border-radius:7px;border:1.5px solid var(--line);display:grid;place-items:center;font-size:13px;font-weight:700;color:var(--muted)}
+.choice .body{min-width:0;overflow-wrap:anywhere}
+.choice.right{border-color:var(--green);background:var(--green-soft)}
+.choice.wrong{border-color:var(--red);background:var(--red-soft)}
+.choice.right .key{border-color:var(--green);color:var(--green)}
+.choice.wrong .key{border-color:var(--red);color:var(--red)}
+.type{flex-direction:column;align-items:flex-start;gap:2px;font-size:17px}
+.type .tn{display:flex;align-items:center;gap:9px;font-weight:700;font-size:18px}
+.type .how{color:var(--muted);font-size:15px}
+.entry{display:flex;align-items:center;gap:12px;font-size:30px;font-weight:700;flex-wrap:wrap}
+.ansbox{min-width:150px;min-height:1.4em;border-bottom:3px solid var(--pen);padding:0 8px;font-variant-numeric:tabular-nums}
+.ansbox.ph{color:var(--muted);font-weight:400;font-size:18px;display:flex;align-items:flex-end}
+.err{color:var(--red);font-weight:700;font-size:15px}
+.pad{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;max-width:380px}
+.pad button{font-size:23px;font-weight:700;min-height:56px;border-radius:12px;border:1.5px solid var(--line);background:var(--card)}
+.pad button:active{background:var(--line)}
+.pad .check{grid-column:span 2;background:var(--pen);border-color:var(--pen);color:var(--pen-ink);font-size:19px}
+.hint{font-size:14px;color:var(--muted)}
+.fb{border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:10px}
+.fb.ok{background:var(--green-soft)} .fb.bad{background:var(--red-soft)}
+.fb-head{font-family:var(--f-display);font-weight:800;font-size:22px}
+.fb.ok .fb-head{color:var(--green)} .fb.bad .fb-head{color:var(--red)}
+.why{font-weight:700;color:var(--red)}
+.work{background:var(--card);border:1.5px dashed var(--line);border-radius:10px;padding:10px 14px;font-size:19px;line-height:1.75;overflow-x:auto}
+.work .note{font-size:15px;color:var(--muted);line-height:1.5;margin-top:4px}
+.rule{font-size:15px}
+.rule b{text-transform:uppercase;letter-spacing:.07em;font-size:12px;margin-right:6px}
+.fb .btn{align-self:flex-start;margin-top:4px}
+.nl{width:100%;max-width:560px;height:auto;display:block}
+.nl-axis{stroke:var(--muted);stroke-width:2}
+.nl-tick{stroke:var(--muted);stroke-width:1.5}
+.nl-lab{fill:var(--muted);font-size:13px;font-family:var(--f-body)}
+.nl-key{fill:var(--ink);font-weight:700}
+.nl-arc{stroke:var(--pen);stroke-width:3;fill:none}
+.nl-head{fill:var(--pen)}
+.nl-start{fill:var(--card);stroke:var(--ink);stroke-width:2}
+.nl-end{fill:var(--pen)}
+
+/* end */
+.score{font-size:clamp(56px,14vw,84px);font-variant-numeric:tabular-nums;line-height:1}
+.score span{font-size:.45em;color:var(--muted)}
+.cats{display:grid;grid-template-columns:1fr;gap:10px}
+@media (min-width:540px){.cats{grid-template-columns:1fr 1fr}}
+.catrow{display:flex;flex-direction:column;gap:6px;background:var(--card);border:1.5px solid var(--line);border-radius:12px;padding:12px 14px}
+.catrow .top{display:flex;justify-content:space-between;gap:8px;font-weight:700}
+.catrow .top span:last-child{font-variant-numeric:tabular-nums}
+.bar{height:8px;border-radius:4px;background:var(--line);overflow:hidden}
+.bar>i{display:block;height:100%;background:var(--c)}
+.mist{display:flex;flex-direction:column;gap:12px}
+.mcard{background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.mcard .mp{font-size:20px;font-weight:700;overflow-wrap:anywhere}
+.mcard .mp.para{font-size:16px;font-weight:400}
+.mrow{display:flex;flex-wrap:wrap;gap:4px 18px;font-size:16px}
+.mrow .lbl{color:var(--muted);font-size:13px;text-transform:uppercase;letter-spacing:.06em;margin-right:6px}
+.mrow .bad{color:var(--red);font-weight:700}
+.mrow .good{color:var(--green);font-weight:700}
+.actions{display:flex;flex-wrap:wrap;gap:12px}
+.parent{font-size:15px;color:var(--muted)}
+@media (prefers-reduced-motion:no-preference){.fb{animation:pop .18s ease-out}@keyframes pop{from{transform:translateY(4px);opacity:.6}to{transform:none;opacity:1}}}
+</style>
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}[hidden]{display:none!important}</style>
+</head>
+<body>
+
+
+<div class="wrap" id="app"></div>
+
+<script>
+(function(){
+'use strict';
+/* ---------- small helpers ---------- */
+const ri=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const nz=(a,b)=>{let v;do{v=ri(a,b)}while(v===0);return v};
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const weighted=list=>{const t=list.reduce((s,x)=>s+x[1],0);let r=Math.random()*t;for(const x of list){r-=x[1];if(r<=0)return x[0]}return list[0][0]};
+const MS='−';
+const num=n=>(n<0?MS:'')+Math.abs(n);
+const par=n=>n<0?'('+num(n)+')':String(n);
+const V=v=>'<i>'+v+'</i>';
+const fr=(a,b)=>'<span class="fr"><span>'+a+'</span><span>'+b+'</span></span>';
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const money=x=>'$'+(Number.isInteger(x)?x:x.toFixed(2));
+const dec=x=>String(+x.toFixed(4));
+const markText=(text,marks)=>{let h=esc(text);(marks||[]).forEach(m=>{const e=esc(m);const i=h.indexOf(e);if(i>=0)h=h.slice(0,i)+'<mark>'+e+'</mark>'+h.slice(i+e.length)});return h};
+
+/* ---------- exact fractions ---------- */
+function gcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){const t=a%b;a=b;b=t}return a||1}
+function Q(n,d){if(d===undefined)d=1;if(d<0){n=-n;d=-d}const g=gcd(n,d);return{n:n/g,d:d/g}}
+const qadd=(a,b)=>Q(a.n*b.d+b.n*a.d,a.d*b.d);
+const qsub=(a,b)=>Q(a.n*b.d-b.n*a.d,a.d*b.d);
+const qmul=(a,b)=>Q(a.n*b.n,a.d*b.d);
+const qeq=(a,b)=>!!a&&!!b&&a.n===b.n&&a.d===b.d;
+const qneg=a=>Q(-a.n,a.d);
+function qdec(x){const s=String(x);const i=s.indexOf('.');if(i<0)return Q(Math.round(x));const p=Math.pow(10,s.length-i-1);return Q(Math.round(x*p),p)}
+function qhtml(q){return q.d===1?num(q.n):(q.n<0?MS:'')+fr(Math.abs(q.n),q.d)}
+function qpar(q){return q.n<0?'('+qhtml(q)+')':qhtml(q)}
+function qdecText(q){let d=q.d;while(d%2===0)d/=2;while(d%5===0)d/=5;return d===1&&q.d!==1?num(+(q.n/q.d).toFixed(6)):null}
+function parseAns(raw){
+  let s=String(raw).replace(/\s+/g,'').replace(/[−–—]/g,'-').replace(/^[a-z]=/i,'');
+  if(!s)return null;
+  let m=s.match(/^(-?)(\d+)\/(\d+)$/);
+  if(m){const d=+m[3];if(d===0)return null;return Q((m[1]?-1:1)*(+m[2]),d)}
+  m=s.match(/^(-?)(\d*)(?:\.(\d+))?$/);
+  if(m&&(m[2]||m[3])){const fp=m[3]||'';const p=Math.pow(10,fp.length);return Q((m[1]?-1:1)*((+(m[2]||0))*p+(+fp||0)),p)}
+  return null;
+}
+
+/* ---------- categories ---------- */
+const CATS={
+  words:{name:'Words → Algebra',zh:'文字变代数',c:'var(--c-words)',ex:'7 less than a number → <b>'+V('n')+' '+MS+' 7</b>'},
+  eq:{name:'One-step equations',zh:'一步方程',c:'var(--c-eq)',ex:fr(3,4)+V('x')+' = 12 → <b>'+V('x')+' = 16</b>'},
+  int:{name:'Integers',zh:'负数运算',c:'var(--c-int)',ex:'('+MS+'4) × ('+MS+'6) = <b>24</b>'},
+  pct:{name:'Percent types',zh:'百分比四类型',c:'var(--c-pct)',ex:'After 20% off it costs $48 → <b>÷ 0.8</b>'}
+};
+const MODES={mix:"Today's warm-up",words:CATS.words.name,eq:CATS.eq.name,int:CATS.int.name,pct:CATS.pct.name,retry:'My mistakes again'};
+
+/* ---------- Words → Algebra ---------- */
+const N=V('n');
+function genWords(){
+  const k=ri(2,12), m=pick([3,4,5,6,7,8,9]);
+  const T=[
+    ()=>({p:k+' more than a number',mk:['more than'],a:N+' + '+k,w:[[N+' '+MS+' '+k,'“More than” means add (+).','more than = 加'],[k+N,'“More than” means add, not multiply.','more than 是加，不是乘'],[k+' '+MS+' '+N,'“More than” means add (+).','more than = 加']],r:['“more than / increased by / plus” → +','加法关键词']}),
+    ()=>({p:k+' less than a number',mk:['less than'],a:N+' '+MS+' '+k,w:[[k+' '+MS+' '+N,'Trap! “Less than” flips the order: start with the number, then take '+k+' away.','陷阱：less than 顺序反过来，先写 n 再减 '+k],[N+' + '+k,'“Less than” means subtract.','less than = 减'],[fr(N,k),'“Less than” means subtract, not divide.','less than 是减，不是除']],r:['“k less than n” = n − k (order flips)','less than 顺序反过来']}),
+    ()=>({p:k+' fewer than a number',mk:['fewer than'],a:N+' '+MS+' '+k,w:[[k+' '+MS+' '+N,'Trap! “Fewer than” flips the order, like “less than”.','陷阱：fewer than 和 less than 一样，顺序反过来'],[N+' + '+k,'“Fewer than” means subtract.','fewer than = 减'],[k+N,'“Fewer than” means subtract.','fewer than = 减']],r:['“k fewer than n” = n − k (order flips)','fewer than 顺序反过来']}),
+    ()=>({p:'a number subtracted from '+k,mk:['subtracted from'],a:k+' '+MS+' '+N,w:[[N+' '+MS+' '+k,'“Subtracted from '+k+'” means start with '+k+', then take the number away.','subtracted from '+k+'：从 '+k+' 里减，'+k+' 写在前面'],[N+' + '+k,'“Subtracted” means −.','subtracted = 减'],[k+N,'“Subtracted” means −.','subtracted = 减']],r:['“n subtracted from k” = k − n','subtracted from：被减的数写在前']}),
+    ()=>({p:'the difference between a number and '+k,mk:['the difference between'],a:N+' '+MS+' '+k,w:[[k+' '+MS+' '+N,'“The difference between A and B” is A − B. The order stays the same.','difference between A and B = A − B，顺序不变'],[N+' + '+k,'“Difference” means subtract.','difference = 差，用减法'],[fr(N,k),'“Difference” means subtract, not divide.','difference 是减，不是除']],r:['“the difference between A and B” = A − B','顺序不变']}),
+    ()=>({p:'the product of '+m+' and a number',mk:['the product of'],a:m+N,w:[[m+' + '+N,'“Product” means multiply.','product = 乘积'],[N+' '+MS+' '+m,'“Product” means multiply.','product = 乘积'],[fr(N,m),'“Product” means multiply, not divide.','product 是乘，不是除']],r:['“product / times / multiplied by” → ×','乘法关键词']}),
+    ()=>({p:'the quotient of a number and '+m,mk:['the quotient of'],a:fr(N,m),w:[[fr(m,N),'“The quotient of A and B” is A ÷ B, so the number goes on top.','quotient of A and B = A ÷ B'],[m+N,'“Quotient” means divide.','quotient = 商，用除法'],[N+' '+MS+' '+m,'“Quotient” means divide.','quotient = 商，用除法']],r:['“the quotient of A and B” = A ÷ B','quotient 用除法，顺序不变']}),
+    ()=>({p:'twice a number, decreased by '+k,mk:['twice','decreased by'],a:'2'+N+' '+MS+' '+k,w:[['2('+N+' '+MS+' '+k+')','There is no “the difference” here, so no brackets: double the number first, then subtract.','这里没有 the difference，不用括号'],[k+' '+MS+' 2'+N,'“Decreased by '+k+'” means − '+k+' comes after 2n.','decreased by '+k+'：在 2n 后面减'],['2'+N+' + '+k,'“Decreased” means subtract.','decreased = 减']],r:['“twice” = × 2; “decreased by” = −','twice 是乘 2']}),
+    ()=>({p:'twice the difference between a number and '+k,mk:['twice the difference'],a:'2('+N+' '+MS+' '+k+')',w:[['2'+N+' '+MS+' '+k,'“Twice THE DIFFERENCE” means find the difference first, so you need brackets.','twice the difference：先求差，要加括号'],['2('+k+' '+MS+' '+N+')','“The difference between A and B” keeps the order: n − '+k+'.','difference between 顺序不变'],['2 + ('+N+' '+MS+' '+k+')','“Twice” means × 2, not + 2.','twice 是乘 2，不是加 2']],r:['“times THE SUM / THE DIFFERENCE” → use brackets','后面跟 the sum / the difference 就加括号']}),
+    ()=>({p:m+' times the sum of a number and '+k,mk:['times the sum'],a:m+'('+N+' + '+k+')',w:[[m+N+' + '+k,'“Times THE SUM” means add first, so you need brackets.','times the sum：先求和，要加括号'],[m+' + '+N+' + '+k,'“Times” means multiply.','times = 乘'],[m+'('+N+' '+MS+' '+k+')','“Sum” means add.','sum = 和，用加法']],r:['“times THE SUM / THE DIFFERENCE” → use brackets','后面跟 the sum / the difference 就加括号']}),
+    ()=>({p:'the product of '+m+' and the sum of a number and '+k,mk:['the product of','the sum of'],a:m+'('+N+' + '+k+')',w:[[m+N+' + '+k,'You multiply '+m+' by the whole sum, so the sum needs brackets.','乘的是整个和，要加括号'],[m+' + ('+N+' + '+k+')','“Product” means multiply.','product = 乘'],[m+'('+N+' '+MS+' '+k+')','“Sum” means add.','sum = 加']],r:['“the product of m and THE SUM …” → m( … + … )','乘整个和要加括号']}),
+    ()=>({p:'the opposite of a number, increased by '+k,mk:['the opposite of a number','increased by'],a:MS+N+' + '+k,w:[[N+' + '+k,'“The opposite of a number” is −n.','opposite of a number = −n（相反数）'],[MS+N+' '+MS+' '+k,'“Increased by” means add.','increased by = 加'],[MS+'('+N+' + '+k+')','Only the number is made opposite. Then add '+k+'. No brackets.','只有 n 取相反数，再加 '+k]],r:['“the opposite of n” = −n','相反数加负号']}),
+    ()=>({p:'the sum of '+m+' times a number and '+MS+k,mk:['the sum of'],a:m+N+' '+MS+' '+k,w:[[m+N+' + '+k,'Adding '+MS+k+' is the same as subtracting '+k+'.','加上 −'+k+' 就是减 '+k],[m+'('+N+' '+MS+' '+k+')','Only the number is multiplied by '+m+'. No brackets.','只有 n 乘 '+m+'，不用括号'],[m+' + '+N+' '+MS+' '+k,'“'+m+' times a number” is '+m+'n.',m+' times a number = '+m+'n']],r:['adding a negative = subtracting','加负数等于减']}),
+    ()=>({p:'a number squared, minus '+k,mk:['squared','minus'],a:N+'² '+MS+' '+k,w:[['2'+N+' '+MS+' '+k,'“Squared” means n × n, not 2 × n.','squared = 平方，n × n'],['('+N+' '+MS+' '+k+')²','Square the number first, then subtract '+k+'.','先平方，再减'],[k+' '+MS+' '+N+'²','“Minus '+k+'” comes after n².','minus '+k+' 写在后面']],r:['“squared” = n², “cubed” = n³','平方、立方']}),
+    ()=>({p:'half of a number, plus '+k,mk:['half of','plus'],a:fr(N,2)+' + '+k,w:[['2'+N+' + '+k,'“Half” means ÷ 2, not × 2.','half = 除以 2'],[fr(N+' + '+k,2),'Only the number is halved. Then add '+k+'.','只有 n 除以 2，再加 '+k],[fr(N,2)+' '+MS+' '+k,'“Plus” means add.','plus = 加']],r:['“half of” = ÷ 2','half 是除以 2']}),
+    ()=>({p:m+' times a number, increased by '+k,mk:['times','increased by'],a:m+N+' + '+k,w:[[m+'('+N+' + '+k+')','No “the sum” here, so no brackets: multiply first, then add.','这里没有 the sum，不用括号'],[m+' + '+N+' + '+k,'“Times” means multiply.','times = 乘'],[m+N+' '+MS+' '+k,'“Increased by” means add.','increased by = 加']],r:['no “the sum / the difference” → no brackets','没有 the sum 就不加括号']})
+  ];
+  const t=pick(T)();
+  const ch=shuffle([{html:t.a,correct:true}].concat(t.w.map(x=>({html:x[0],why:x[1],whyZh:x[2]}))));
+  return {cat:'words',kind:'choice',layout:'two',key:'w:'+t.p,
+    instr:'Write it as algebra. Use <i>n</i> for “a number”.',instrZh:'写成代数式（n 表示“一个数”）',
+    promptClass:'words',prompt:esc(t.p),marked:markText(t.p,t.mk),choices:ch,answerHTML:t.a,
+    rule:{en:t.r[0],zh:t.r[1]}};
+}
+function genReverse(){
+  const k=ri(2,12), m=pick([3,4,5,6,7,8,9]);
+  const T=[
+    ()=>({e:N+' '+MS+' '+k,a:k+' less than a number',w:[['a number less than '+k,'“A number less than '+k+'” means '+k+' − n. With “less than”, the order flips.','a number less than '+k+' = '+k+' − n'],[k+' more than a number','“More than” means +.','more than = 加'],['the product of '+k+' and a number','“Product” means ×.','product = 乘']],r:['“k less than n” = n − k','less than 顺序反过来']}),
+    ()=>({e:'2('+N+' '+MS+' '+k+')',a:'twice the difference between a number and '+k,w:[['twice a number, decreased by '+k,'That is 2n − '+k+'. The brackets mean the difference is found first.','那是 2n − '+k+'，括号表示先求差'],['the difference between '+k+' and twice a number','That is '+k+' − 2n.','那是 '+k+' − 2n'],['two more than the difference between a number and '+k,'“Two more than” means + 2, but 2( ) means × 2.','2( ) 是乘 2，不是加 2']],r:['brackets ↔ “the sum / the difference”','括号对应 the sum / the difference']}),
+    ()=>({e:m+'('+N+' + '+k+')',a:m+' times the sum of a number and '+k,w:[[m+' times a number, plus '+k,'That is '+m+'n + '+k+'. The brackets mean add first.','那是 '+m+'n + '+k+'，括号表示先加'],['the sum of '+m+' and a number, plus '+k,'That is '+m+' + n + '+k+'. '+m+'( ) means multiply.',m+'( ) 是乘'],[m+' times the difference between a number and '+k,'“Difference” means −, but the bracket has +.','difference 是减，括号里是加']],r:['brackets ↔ “the sum / the difference”','括号对应 the sum / the difference']}),
+    ()=>({e:fr(N,m)+' + '+k,a:'the quotient of a number and '+m+', increased by '+k,w:[['the quotient of '+m+' and a number, increased by '+k,'That is '+m+' ÷ n + '+k+'. The quotient of A and B is A ÷ B.','quotient of A and B = A ÷ B'],[m+' times a number, increased by '+k,'That is '+m+'n + '+k+'. A fraction bar means ÷.','分数线是除'],['the quotient of a number and '+m+', decreased by '+k,'“Decreased” means −, but the expression has +.','decreased 是减，式子里是加']],r:['the fraction bar means ÷','分数线就是除号']})
+  ];
+  const t=pick(T)();
+  const ch=shuffle([{html:esc(t.a),correct:true}].concat(t.w.map(x=>({html:esc(x[0]),why:x[1],whyZh:x[2]}))));
+  return {cat:'words',kind:'choice',layout:'one',txt:true,key:'r:'+t.e,
+    instr:'Which words match this expression?',instrZh:'哪句话和这个式子意思一样？',
+    promptClass:'',prompt:t.e,choices:ch,answerHTML:esc(t.a),rule:{en:t.r[0],zh:t.r[1]}};
+}
+
+/* ---------- One-step equations ---------- */
+function signDiag(g,ans){return ans.n!==0&&qeq(g,qneg(ans))?{en:'Your number is right, but the sign is wrong. Put your answer back in and check.',zh:'数字对了，正负号错了。代回原式检验一下。'}:null}
+function genEq(){
+  const f=weighted([['add',1],['sub',1],['left',.6],['mul',1.4],['div',1],['frac',1.2],['dec',.8],['fadd',.5]]);
+  let v=pick(['x','y','n','m','k','a','t']); const X=V(v);
+  let prompt,ans,sol=[],check='',diag=()=>null,rule,note='';
+  if(f==='add'){
+    const a=ri(2,15),x=nz(-12,15),b=x+a; ans=Q(x);
+    prompt=X+' + '+a+' = '+num(b);
+    sol=[X+' + '+a+' '+MS+' '+a+' = '+num(b)+' '+MS+' '+a, X+' = '+num(x)];
+    check='Check: '+num(x)+' + '+a+' = '+num(b)+' ✓';
+    diag=g=>qeq(g,Q(b+a))?{en:'You added '+a+'. To undo “+ '+a+'”, subtract '+a+' from both sides.',zh:'要消掉 +'+a+'，两边同时减 '+a+'。'}:signDiag(g,ans);
+    rule={en:'Undo + with −. Do the same to both sides.',zh:'加法用减法消掉，两边同时做。'};
+  } else if(f==='sub'){
+    const a=ri(2,15),x=nz(-10,20),b=x-a; ans=Q(x);
+    prompt=X+' '+MS+' '+a+' = '+num(b);
+    sol=[X+' '+MS+' '+a+' + '+a+' = '+num(b)+' + '+a, X+' = '+num(x)];
+    check='Check: '+num(x)+' '+MS+' '+a+' = '+num(b)+' ✓';
+    diag=g=>qeq(g,Q(b-a))?{en:'You subtracted again. To undo “− '+a+'”, add '+a+' to both sides.',zh:'要消掉 −'+a+'，两边同时加 '+a+'。'}:signDiag(g,ans);
+    rule={en:'Undo − with +. Do the same to both sides.',zh:'减法用加法消掉，两边同时做。'};
+  } else if(f==='left'){
+    let a;do{a=nz(-12,12)}while(Math.abs(a)<2);const x=nz(-10,15),b=a+x; ans=Q(x);
+    prompt=num(a)+' + '+X+' = '+num(b);
+    sol=a>0?[a+' + '+X+' '+MS+' '+a+' = '+num(b)+' '+MS+' '+a, X+' = '+num(x)]:[num(a)+' + '+X+' + '+(-a)+' = '+num(b)+' + '+(-a), X+' = '+num(x)];
+    check='Check: '+num(a)+' + '+par(x)+' = '+num(b)+' ✓';
+    diag=g=>qeq(g,Q(b+a))?(a>0?{en:'To undo “+ '+a+'”, subtract '+a+' from both sides.',zh:'两边同时减 '+a+'。'}:{en:'To undo “'+MS+' '+(-a)+'”, add '+(-a)+' to both sides.',zh:'两边同时加 '+(-a)+'。'}):signDiag(g,ans);
+    rule={en:'Get the letter alone: undo the number next to it.',zh:'把字母单独留下，逆运算消掉旁边的数。'};
+  } else if(f==='mul'){
+    let a,b;
+    if(Math.random()<.2){a=pick([2,-2,4,-4,5,-5]);do{b=nz(-40,50)}while(b%a===0);ans=Q(b,a)}
+    else{do{a=nz(-9,9)}while(Math.abs(a)<2);let x;do{x=nz(-12,12)}while(Math.abs(x)<2);b=a*x;ans=Q(x)}
+    prompt=num(a)+X+' = '+num(b);
+    const dt=qdecText(ans);
+    sol=[X+' = '+num(b)+' ÷ '+par(a), X+' = '+qhtml(ans)+(dt?' = '+dt:'')];
+    check='Check: '+num(a)+' × '+qpar(ans)+' = '+num(b)+' ✓';
+    diag=g=>{if(qeq(g,Q(a*b)))return{en:'You multiplied by '+num(a)+'. To undo “× '+num(a)+'”, divide both sides by '+num(a)+'.',zh:'乘法用除法消掉：两边同时除以 '+num(a)+'。'};
+      if(qeq(g,Q(a,b)))return{en:'Divide the other way: '+num(b)+' ÷ '+par(a)+', not '+num(a)+' ÷ '+par(b)+'.',zh:'除反了：应该是 '+num(b)+' ÷ '+par(a)+'。'};
+      return signDiag(g,ans)?{en:'Check the sign: same signs → positive, different signs → negative.',zh:'检查符号：同号得正，异号得负。'}:null};
+    rule={en:'Undo × with ÷. Same signs → +, different signs → −.',zh:'乘法用除法消掉；同号得正，异号得负。'};
+  } else if(f==='div'){
+    const a=ri(2,9),b=nz(-9,12),x=a*b; ans=Q(x);
+    prompt=fr(X,a)+' = '+num(b);
+    sol=[X+' = '+num(b)+' × '+a, X+' = '+num(x)];
+    check='Check: '+num(x)+' ÷ '+a+' = '+num(b)+' ✓';
+    diag=g=>qeq(g,Q(b,a))?{en:'You divided. To undo “÷ '+a+'”, multiply both sides by '+a+'.',zh:'除法用乘法消掉：两边同时乘 '+a+'。'}:signDiag(g,ans);
+    rule={en:'Undo ÷ with ×. Do the same to both sides.',zh:'除法用乘法消掉，两边同时做。'};
+  } else if(f==='frac'){
+    const pq=pick([[1,2],[2,3],[3,4],[2,5],[3,5],[4,5],[3,8],[5,6],[1,3],[1,4]]),p=pq[0],q=pq[1];
+    let x,r;
+    if(Math.random()<.7){const t=ri(1,6)*(Math.random()<.15?-1:1);x=Q(q*t);r=Q(p*t)}
+    else{do{x=Q(ri(1,5),pick([2,3,4,5,7]))}while(x.d===1);r=qmul(Q(p,q),x)}
+    ans=x;
+    prompt=fr(p,q)+X+' = '+qhtml(r);
+    sol=[X+' = '+qhtml(r)+' × '+fr(q,p)+'  <span class="zh">(flip and multiply 翻过来乘)</span>', X+' = '+qhtml(x)];
+    check='Check: '+fr(p,q)+' × '+qpar(x)+' = '+qhtml(r)+' ✓';
+    diag=g=>qeq(g,qmul(r,Q(p,q)))?{en:'You multiplied by '+p+'/'+q+'. Flip it and multiply: × '+q+'/'+p+'.',zh:'分数系数，翻过来乘：乘 '+q+'/'+p+'（倒数）。'}:signDiag(g,ans);
+    rule={en:'Fraction in front? Multiply both sides by its reciprocal (flip it).',zh:'分数系数：两边同乘它的倒数。'};
+  } else if(f==='dec'){
+    const c=pick([0.6,0.7,0.75,0.8,0.85,0.9,1.2,1.25,1.1,1.5]);let x,b;
+    do{x=20*ri(1,15);b=c*x}while(Math.abs(b-Math.round(b))>1e-9);b=Math.round(b);
+    const P=V('p'); ans=Q(x);
+    prompt=dec(c)+P+' = '+b;
+    sol=[P+' = '+b+' ÷ '+dec(c), P+' = '+x];
+    check='Check: '+dec(c)+' × '+x+' = '+b+' ✓';
+    note=c<1?'Unit 1 link: “After '+Math.round((1-c)*100)+'% off, it costs $'+b+'.” Original price = '+b+' ÷ '+dec(c)+' = $'+x+'.':'Unit 1 link: “After a '+Math.round((c-1)*100)+'% increase, it costs $'+b+'.” Price before = '+b+' ÷ '+dec(c)+' = $'+x+'.';
+    diag=g=>qeq(g,qmul(Q(b),qdec(c)))?{en:'You multiplied by '+dec(c)+'. To undo “× '+dec(c)+'”, divide by '+dec(c)+'.'+(c<1?' The original price must be bigger than $'+b+'.':''),zh:'乘法用除法消掉：除以 '+dec(c)+'。'+(c<1?'原价一定比 '+b+' 大。':'')}:null;
+    rule={en:'0.8p = 48 is a one-step equation: divide by 0.8.',zh:'0.8p = 48 就是一步方程：除以 0.8。'};
+    v='p';
+  } else {
+    const x=pick([Q(1,2),Q(1,3),Q(1,4),Q(3,10),Q(2,5),Q(1,6),Q(3,8),Q(5,12),Q(2,3)]);let a;do{a=pick([Q(1,4),Q(1,3),Q(2,5),Q(1,6),Q(3,8),Q(1,2),Q(1,5)])}while(qeq(a,x));
+    const b=qadd(x,a); ans=x;
+    prompt=X+' + '+qhtml(a)+' = '+qhtml(b);
+    sol=[X+' = '+qhtml(b)+' '+MS+' '+qhtml(a), X+' = '+qhtml(x)];
+    check='Check: '+qhtml(x)+' + '+qhtml(a)+' = '+qhtml(b)+' ✓';
+    diag=g=>qeq(g,qadd(b,a))?{en:'You added. To undo “+ '+a.n+'/'+a.d+'”, subtract it from both sides.',zh:'加法用减法消掉，两边同时减。'}:null;
+    rule={en:'Undo + with −. Use a common denominator, then simplify.',zh:'先通分，再减，最后约分。'};
+  }
+  const dt=qdecText(ans);
+  return {cat:'eq',kind:'number',key:'e:'+prompt,v:v,
+    instr:'Solve for '+V(v)+'.',instrZh:'解方程',promptClass:'',prompt:prompt,
+    answer:ans,answerHTML:qhtml(ans)+(dt?' = '+dt:''),solution:sol,check:check,note:note,diagnose:diag,rule:rule};
+}
+
+/* ---------- Integers ---------- */
+function numberLine(a,ans){
+  const lo=Math.min(a,ans,0)-1,hi=Math.max(a,ans,0)+1,n=hi-lo,W=560,pad=22;
+  const x=v=>pad+(v-lo)*(W-2*pad)/n;
+  let s='<svg class="nl" viewBox="0 0 '+W+' 86" role="img" aria-label="Number line from '+a+' to '+ans+'"><defs><marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="nl-head"/></marker></defs>';
+  s+='<line x1="'+(pad-10)+'" y1="56" x2="'+(W-pad+10)+'" y2="56" class="nl-axis"/>';
+  for(let v=lo;v<=hi;v++){
+    s+='<line x1="'+x(v)+'" y1="'+(v===0?47:51)+'" x2="'+x(v)+'" y2="61" class="nl-tick"/>';
+    if(n<=18||v===0||v===a||v===ans){const key=(v===a||v===ans);s+='<text x="'+x(v)+'" y="79" text-anchor="middle" class="nl-lab'+(key?' nl-key':'')+'">'+num(v)+'</text>'}
+  }
+  const xa=x(a),xb=x(ans),mid=(xa+xb)/2,h=Math.min(40,10+Math.abs(xb-xa)*0.25);
+  s+='<path d="M'+xa+',50 Q'+mid+','+(50-h)+' '+xb+',50" class="nl-arc" marker-end="url(#ah)"/>';
+  s+='<circle cx="'+xa+'" cy="56" r="6" class="nl-start"/><circle cx="'+xb+'" cy="56" r="6" class="nl-end"/></svg>';
+  return s;
+}
+function genInt(){
+  const op=pick(['+',MS,'×','÷']);let a,b,ans,prompt,rule,visual='',sol=[],diag;
+  if(op==='+'){
+    do{a=nz(-12,12);b=nz(-12,12)}while(a>0&&b>0);ans=a+b;prompt=num(a)+' + '+par(b);
+    sol=['Start at '+num(a)+'. '+(b>0?'Move '+b+' to the right.':'Move '+(-b)+' to the left.')+' You land on '+num(ans)+'.'];
+    visual=numberLine(a,ans);
+    rule={en:'+ a positive → move right. + a negative → move left.',zh:'加正数向右走，加负数向左走。'};
+  } else if(op===MS){
+    a=nz(-10,12);b=ri(2,12);if(a>0&&a>=b)b=a+ri(1,8);ans=a-b;prompt=num(a)+' '+MS+' '+b;
+    sol=['Start at '+num(a)+'. Move '+b+' to the left. You land on '+num(ans)+'.'];
+    visual=numberLine(a,ans);
+    rule={en:'− a positive → move left on the number line.',zh:'减正数，在数轴上向左走。'};
+  } else if(op==='×'){
+    do{a=nz(-9,9);b=nz(-9,9)}while((a>0&&b>0)||Math.abs(a)<2||Math.abs(b)<2);ans=a*b;prompt=par(a)+' × '+par(b);
+    sol=[Math.abs(a)+' × '+Math.abs(b)+' = '+Math.abs(ans)+'. '+((a<0)===(b<0)?'Same signs → positive.':'Different signs → negative.'), par(a)+' × '+par(b)+' = '+num(ans)];
+    rule={en:'Same signs → positive. Different signs → negative.',zh:'同号得正，异号得负。'};
+  } else {
+    let q,d;do{q=nz(-9,9);d=nz(-9,9)}while(Math.abs(d)<2||(q*d>0&&d>0));a=q*d;b=d;ans=q;prompt=par(a)+' ÷ '+par(b);
+    sol=[Math.abs(a)+' ÷ '+Math.abs(b)+' = '+Math.abs(ans)+'. '+((a<0)===(b<0)?'Same signs → positive.':'Different signs → negative.'), par(a)+' ÷ '+par(b)+' = '+num(ans)];
+    rule={en:'Same signs → positive. Different signs → negative.',zh:'同号得正，异号得负。'};
+  }
+  const A=Q(ans);
+  diag=g=>signDiag(g,A)?{en:(op==='×'||op==='÷')?'The number is right, but check the sign: same signs → +, different signs → −.':'The number is right, but the sign is wrong. Look at the number line: which side of 0 do you land on?',zh:(op==='×'||op==='÷')?'数字对了，检查符号：同号得正，异号得负。':'数字对了，符号错了。看数轴：最后停在 0 的哪一边？'}:null;
+  return {cat:'int',kind:'number',key:'i:'+prompt,v:null,instr:'Calculate.',instrZh:'计算',promptClass:'',prompt:prompt,
+    answer:A,answerHTML:num(ans),solution:sol,visual:visual,diagnose:diag,rule:rule};
+}
+
+/* ---------- Percent types ---------- */
+const TYPES={
+  part:{name:'Part of a whole',zh:'求部分',how:'× r%',c:'var(--t-part)'},
+  after:{name:'After a change',zh:'变化后是多少',how:'× (1 ± r%)',c:'var(--t-after)'},
+  before:{name:'Before a change',zh:'变化前是多少',how:'÷ (1 ± r%)',c:'var(--t-before)'},
+  pct:{name:'What percent?',zh:'求百分比',how:'part ÷ whole',c:'var(--t-pct)'}
+};
+const TYPE_WHY={
+  part:{en:'Nothing changes here. You only take a part of the whole, so × r%.',zh:'这里没有变化，只是取整体的一部分：× r%。'},
+  after:{en:'You know the number before the change and need the new number, so × (1 ± r%).',zh:'知道变化前的数，求变化后的数：× (1 ± r%)。'},
+  before:{en:'The number you know is AFTER the change. You need the number BEFORE, so ÷ (1 ± r%).',zh:'给你的是变化后的数，要求变化前的数：÷ (1 ± r%)。'},
+  pct:{en:'You know both numbers and need the percent, so part ÷ whole.',zh:'两个数都知道，求百分比：部分 ÷ 整体。'}
+};
+function genPct(){
+  const t=pick(['part','after','before','pct']);let text,mk,sol=[];
+  if(t==='part'){
+    let W,r;do{W=pick([200,240,300,400,500,600,800,1200]);r=pick([10,15,20,25,30,35,40,45,60,75])}while((W*r)%100);
+    const A=W*r/100,k=ri(0,2);
+    if(k===0){text='A school has '+W+' students. '+r+'% of them walk to school. How many students walk to school?';mk=[r+'% of them','How many'];sol=[r+'% of '+W+' = '+dec(r/100)+' × '+W+' = '+A+' students']}
+    else if(k===1){text='A town has '+W+' people. '+r+'% of the people are children. How many children live in the town?';mk=[r+'% of the people','How many children'];sol=[r+'% of '+W+' = '+dec(r/100)+' × '+W+' = '+A+' children']}
+    else{text='Mia has $'+W+'. She spends '+r+'% of her money on books. How much does she spend on books?';mk=[r+'% of her money','How much'];sol=[r+'% of $'+W+' = '+dec(r/100)+' × '+W+' = '+money(A)]}
+  } else if(t==='after'){
+    const k=ri(0,2),up=k!==1;let P,r;do{P=pick([40,60,80,120,150,200,250,300]);r=pick([10,15,20,25,30,40])}while((P*(100+(up?r:-r)))%100);
+    const mlt=(100+(up?r:-r))/100,A=P*mlt;
+    if(k===0){text='A bike costs $'+P+'. The price increases by '+r+'%. What is the new price?';mk=['increases by','new price'];sol=['$'+P+' × (1 + '+r+'%) = '+P+' × '+dec(mlt)+' = '+money(A)]}
+    else if(k===1){text='A jacket costs $'+P+'. It is '+r+'% off in a sale. What is the sale price?';mk=[r+'% off','sale price'];sol=['$'+P+' × (1 '+MS+' '+r+'%) = '+P+' × '+dec(mlt)+' = '+money(A)]}
+    else{text='A club had '+P+' members last year. This year it has '+r+'% more members. How many members does it have now?';mk=[r+'% more','now'];sol=[P+' × (1 + '+r+'%) = '+P+' × '+dec(mlt)+' = '+A+' members']}
+  } else if(t==='before'){
+    const k=ri(0,2),up=k===1;let O,r;do{O=pick([40,60,80,100,120,150,160,200,240]);r=pick([10,20,25,30,40])}while((O*(100+(up?r:-r)))%100);
+    const mlt=(100+(up?r:-r))/100,Nw=O*mlt,P=V('p');
+    if(k===0){text='After a '+r+'% discount, a bag costs $'+Nw+'. What was the original price?';mk=['After','original price']}
+    else if(k===1){text='After a '+r+'% price increase, a concert ticket costs $'+Nw+'. What was the price before the increase?';mk=['After','before the increase']}
+    else{text='In a sale, shoes cost $'+Nw+'. That is '+r+'% off the usual price. What is the usual price?';mk=[r+'% off the usual price','usual price']}
+    sol=['Let '+P+' be the price before the change.',P+' × '+dec(mlt)+' = '+Nw,P+' = '+Nw+' ÷ '+dec(mlt)+' = '+money(O),'Check: '+O+' × '+dec(mlt)+' = '+Nw+' ✓'];
+  } else {
+    let a,b;do{b=pick([20,25,40,50,80]);a=ri(1,b-1)}while((a*100)%b);const pc=a*100/b,k=ri(0,2);
+    if(k===0){text='Ali answered '+a+' out of '+b+' questions correctly. What percent did he get right?';mk=['out of','What percent'];sol=[a+' ÷ '+b+' = '+dec(a/b)+' = '+pc+'%']}
+    else if(k===1){text=a+' of the '+b+' students in a class wear glasses. What percent of the class wear glasses?';mk=['of the '+b+' students','What percent'];sol=[a+' ÷ '+b+' = '+dec(a/b)+' = '+pc+'%']}
+    else{text='A $'+b+' game is on sale for $'+(b-a)+'. What percent is the discount?';mk=['What percent','discount'];sol=['Discount: $'+b+' '+MS+' $'+(b-a)+' = $'+a,a+' ÷ '+b+' = '+dec(a/b)+' = '+pc+'%']}
+  }
+  const choices=['part','after','before','pct'].map(id=>({type:id,html:'<span class="tn"><span class="sq" style="--c:'+TYPES[id].c+'"></span>'+TYPES[id].name+'</span><span class="zh">'+TYPES[id].zh+'</span><span class="how">'+TYPES[id].how+'</span>',correct:id===t,why:TYPE_WHY[t].en,whyZh:TYPE_WHY[t].zh}));
+  return {cat:'pct',kind:'choice',layout:'two',isType:true,key:'p:'+text,
+    instr:'Which type is this? Don’t calculate yet.',instrZh:'先判断类型，先不用算',promptClass:'para',prompt:esc(text),marked:markText(text,mk),
+    choices:choices,answerHTML:TYPES[t].name,solution:sol,rule:{en:'Find the type first. The type tells you × or ÷.',zh:'先判断类型，类型决定乘还是除。'}};
+}
+
+const GEN={words:r=>r?genReverse():genWords(),eq:genEq,int:genInt,pct:genPct};
+
+/* ---------- history (this device only) ---------- */
+const HKEY='yv-math-warmup-history-v1';
+function loadHist(){try{const h=JSON.parse(localStorage.getItem(HKEY)||'[]');return Array.isArray(h)?h:[]}catch(e){return[]}}
+function saveHist(entry){try{const h=loadHist();h.unshift(entry);localStorage.setItem(HKEY,JSON.stringify(h.slice(0,40)))}catch(e){}}
+
+/* ---------- state ---------- */
+const app=document.getElementById('app');
+let S={screen:'home'};
+const cur=()=>S.queue[S.i];
+
+function buildRound(mode){
+  const plan=mode==='mix'?['words','words','words','eq','eq','eq','int','int','pct','pct']:Array(8).fill(mode);
+  const seen=new Set(),out=[];
+  plan.forEach((c,idx)=>{let q,t=0;const rev=c==='words'&&(mode==='words'?idx>=6:Math.random()<.34);do{q=GEN[c](rev);t++}while(seen.has(q.key)&&t<30);seen.add(q.key);out.push(q)});
+  return shuffle(out);
+}
+function startRound(mode,qs){
+  S={screen:'quiz',mode:mode,queue:qs||buildRound(mode),i:0,results:[],answered:false,input:'',err:'',chosen:null};
+  render();window.scrollTo(0,0);
+}
+function choose(idx){
+  if(S.answered)return;const q=cur(),c=q.choices[idx];if(!c)return;
+  S.chosen=idx;S.answered=true;
+  S.results.push({q:q,ok:!!c.correct,given:q.isType?TYPES[c.type].name:c.html,why:c.correct?null:{en:c.why,zh:c.whyZh}});
+  render();
+}
+function submitNumber(){
+  if(S.answered)return;const q=cur(),g=parseAns(S.input);
+  if(!g){S.err=S.input?'Type a number like 5, −3, 2/3 or 12.5.':'Type your answer first.';render();return}
+  S.err='';S.answered=true;const ok=qeq(g,q.answer);
+  const why=ok?null:(q.diagnose(g)||{en:'Not this one. Compare your work with the steps below.',zh:'对照下面的步骤，看看哪一步不一样。'});
+  S.results.push({q:q,ok:ok,given:esc(S.input.replace(/-/g,MS)),why:why});
+  render();
+}
+function next(){
+  S.i++;S.answered=false;S.input='';S.err='';S.chosen=null;
+  if(S.i>=S.queue.length){S.screen='end';
+    const by={};S.results.forEach(r=>{by[r.q.cat]=by[r.q.cat]||[0,0];by[r.q.cat][1]++;if(r.ok)by[r.q.cat][0]++});
+    saveHist({t:Date.now(),mode:S.mode,score:S.results.filter(r=>r.ok).length,total:S.results.length,by:by});
+  }
+  render();window.scrollTo(0,0);
+}
+function keyIn(k){
+  if(S.answered)return;let s=S.input;
+  if(k==='back')s=s.slice(0,-1);
+  else if(k==='neg')s=s.startsWith('-')?s.slice(1):'-'+s;
+  else if(k==='/'){if(!s.includes('/')&&!s.includes('.')&&/\d$/.test(s))s+='/'}
+  else if(k==='.'){const part=s.split('/').pop();if(!s.includes('/')&&!part.includes('.'))s+=(/\d$/.test(s)?'':'0')+'.'}
+  else if(/^\d$/.test(k)){if(s.replace('-','').length<9)s+=k}
+  S.input=s;S.err='';renderEntry();
+}
+
+/* ---------- rendering ---------- */
+function chip(cat){return '<span class="chip" style="--c:'+CATS[cat].c+'"><span class="sq"></span>'+CATS[cat].name+' · '+CATS[cat].zh+'</span>'}
+function fmtDate(t){const d=new Date(t);return (d.getMonth()+1)+'/'+d.getDate()+' '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')}
+
+function renderHome(){
+  const h=loadHist();
+  let hist='';
+  if(!h.length){hist='<div class="histwrap"><p class="empty">Your rounds will show here after you finish one. 做完一轮后，这里会显示成绩。</p></div>'}
+  else{
+    hist='<div class="histwrap"><table class="hist"><thead><tr><th>When</th><th>Round</th><th>Score</th></tr></thead><tbody>'+
+      h.slice(0,8).map(e=>'<tr><td>'+fmtDate(e.t)+'</td><td>'+esc(MODES[e.mode]||e.mode)+'</td><td>'+e.score+' / '+e.total+'</td></tr>').join('')+'</tbody></table></div>';
+    const agg={};h.slice(0,10).forEach(e=>Object.keys(e.by||{}).forEach(c=>{agg[c]=agg[c]||[0,0];agg[c][0]+=e.by[c][0];agg[c][1]+=e.by[c][1]}));
+    let worst=null;Object.keys(agg).forEach(c=>{if(agg[c][1]>=3&&CATS[c]){const r=agg[c][0]/agg[c][1];if(!worst||r<worst.r)worst={c:c,r:r}}});
+    if(worst&&worst.r<0.9)hist+='<p class="focusnote">Practise most: <b>'+CATS[worst.c].name+'</b> ('+Math.round(worst.r*100)+'% right in recent rounds) <span class="zh">最需要练：'+CATS[worst.c].zh+'</span></p>';
+  }
+  app.innerHTML=
+   '<header><p class="eyebrow">Fall break · Unit 1 + Unit 2</p><h1>Math Warm-up</h1>'+
+   '<p class="lede">Five minutes before your workbook page. Read the red-pen note every time you miss one.<br><span class="zh">每天做练习册之前，先热身 5 分钟。做错了一定要看红笔提示。</span></p></header>'+
+   '<section class="today"><div class="meta"><h2>Today’s warm-up</h2><p>10 mixed questions · about 5 minutes</p><p class="zh">四类题混合，每天一轮</p></div>'+
+   '<button class="btn primary" data-action="start" data-mode="mix" id="start-mix">Start</button></section>'+
+   '<section><h3 class="sec">Practise one topic <span class="zh">单项练习 · 每轮 8 题</span></h3><div class="topics">'+
+   Object.keys(CATS).map(c=>'<button class="topic" data-action="start" data-mode="'+c+'" id="start-'+c+'"><span class="tname"><span class="sq" style="--c:'+CATS[c].c+'"></span>'+CATS[c].name+'</span><span class="zh">'+CATS[c].zh+'</span><span class="ex">'+CATS[c].ex+'</span></button>').join('')+
+   '</div></section>'+
+   '<section><h3 class="sec">Recent rounds <span class="zh">最近记录（只存在这台设备上）</span></h3>'+hist+'</section>';
+}
+
+function entryHTML(){
+  const shown=S.input?esc(S.input.replace(/-/g,MS)):'';
+  return '<div class="entry">'+(cur().v?'<span>'+V(cur().v)+' =</span>':'<span>=</span>')+
+    '<output id="ansbox" class="ansbox'+(shown?'':' ph')+'" aria-live="polite">'+(shown||'tap the keys')+'</output></div>'+
+    '<p class="err" id="err"'+(S.err?'':' hidden')+'>'+esc(S.err)+'</p>';
+}
+function renderEntry(){const box=document.getElementById('entrybox');if(box)box.innerHTML=entryHTML()}
+
+function fbHTML(q,res){
+  const last=S.i===S.queue.length-1;
+  let h='<div class="fb '+(res.ok?'ok':'bad')+'" role="status"><p class="fb-head">'+(res.ok?'✓ Correct':'✗ Not quite')+'</p>';
+  if(!res.ok&&res.why)h+='<p class="why">'+res.why.en+'</p><p class="zh">'+res.why.zh+'</p>';
+  if(!res.ok&&q.kind==='number')h+='<p>Answer: <b>'+q.answerHTML+'</b></p>';
+  if(q.marked)h+='<p>'+(q.cat==='pct'?'Signal words: ':'Key words: ')+q.marked+'</p>';
+  if(q.cat==='pct'||(!res.ok&&q.solution)){
+    h+='<div class="work">'+q.solution.map(l=>'<div>'+l+'</div>').join('')+(q.check&&!res.ok?'<div>'+q.check+'</div>':'')+(q.note?'<div class="note">'+q.note+'</div>':'')+'</div>';
+  } else if(res.ok&&q.check){h+='<div class="work"><div>'+q.check+'</div>'+(q.note?'<div class="note">'+q.note+'</div>':'')+'</div>'}
+  if(!res.ok&&q.visual)h+=q.visual;
+  h+='<p class="rule"><b>Rule</b>'+q.rule.en+' <span class="zh">'+q.rule.zh+'</span></p>';
+  h+='<button class="btn primary" data-action="next" id="next-btn">'+(last?'See my results':'Next')+' →</button></div>';
+  return h;
+}
+
+function renderQuiz(){
+  const q=cur(),res=S.answered?S.results[S.results.length-1]:null;
+  const dots=S.queue.map((_,i)=>{const r=S.results[i];return '<span class="dot'+(r?(r.ok?' ok':' bad'):'')+(i===S.i?' now':'')+'"></span>'}).join('');
+  let ans='';
+  if(q.kind==='choice'){
+    ans='<div class="choices '+(q.layout==='two'?'two':'')+'">'+q.choices.map((c,i)=>{
+      let cls='choice'+(q.txt?' txt':'')+(q.isType?' type':'');
+      if(S.answered){if(c.correct)cls+=' right';else if(i===S.chosen)cls+=' wrong'}
+      return '<button class="'+cls+'" data-action="choose" data-i="'+i+'" id="ch-'+i+'"'+(S.answered?' disabled':'')+'>'+(q.isType?'':'<span class="key">'+'ABCD'[i]+'</span>')+'<span class="body">'+c.html+'</span></button>'}).join('')+'</div>';
+  } else if(!S.answered){
+    ans='<div id="entrybox">'+entryHTML()+'</div><div class="pad" role="group" aria-label="Number keys">'+
+      ['7','8','9','back','4','5','6','/','1','2','3','.','neg','0'].map(k=>'<button data-action="key" data-k="'+k+'" id="key-'+(k==='/'?'slash':k==='.'?'dot':k)+'" aria-label="'+({back:'Delete',neg:'Negative sign','/':'Fraction bar','.':'Decimal point'}[k]||k)+'">'+({back:'⌫',neg:MS}[k]||k)+'</button>').join('')+
+      '<button class="check" data-action="submit" id="key-check">Check</button></div><p class="hint">Fractions: 2/3 · Negatives: tap '+MS+' · Decimals: 12.5</p>';
+  } else {
+    ans='<div class="entry">'+(q.v?'<span>'+V(q.v)+' =</span>':'<span>=</span>')+'<span class="ansbox">'+res.given+'</span></div>';
+  }
+  app.innerHTML=
+   '<div class="qbar"><button class="linkbtn" data-action="home" id="quit">← Quit</button><span class="mode">'+esc(MODES[S.mode])+'</span><span class="count">'+(S.i+1)+' / '+S.queue.length+'</span></div>'+
+   '<div class="dots" aria-hidden="true">'+dots+'</div>'+
+   '<article class="qcard">'+chip(q.cat)+'<p class="instr">'+q.instr+' <span class="zh">'+q.instrZh+'</span></p>'+
+   '<div class="prompt '+q.promptClass+'">'+q.prompt+'</div>'+ans+(res?fbHTML(q,res):'')+'</article>';
+  if(res){const b=document.getElementById('next-btn');if(b)b.focus({preventScroll:true});const fb=app.querySelector('.fb');if(fb&&fb.scrollIntoView)fb.scrollIntoView({block:'nearest',behavior:'smooth'})}
+}
+
+function renderEnd(){
+  const score=S.results.filter(r=>r.ok).length,total=S.results.length;
+  const msg=score>=total-1?'Excellent work.':score>=Math.ceil(total*.7)?'Good work. Read each red-pen note below.':'Look at each mistake below, then try them again.';
+  const by={};S.results.forEach(r=>{by[r.q.cat]=by[r.q.cat]||[0,0];by[r.q.cat][1]++;if(r.ok)by[r.q.cat][0]++});
+  const cats=Object.keys(CATS).filter(c=>by[c]).map(c=>'<div class="catrow" style="--c:'+CATS[c].c+'"><div class="top"><span>'+CATS[c].name+'</span><span>'+by[c][0]+' / '+by[c][1]+'</span></div><div class="bar"><i style="width:'+Math.round(by[c][0]/by[c][1]*100)+'%"></i></div></div>').join('');
+  const wrong=S.results.filter(r=>!r.ok);
+  const mist=wrong.map(r=>'<div class="mcard">'+chip(r.q.cat)+'<div class="mp'+(r.q.cat==='pct'?' para':'')+'">'+r.q.prompt+'</div>'+
+    '<div class="mrow"><span><span class="lbl">You</span><span class="bad">'+r.given+'</span></span><span><span class="lbl">Correct</span><span class="good">'+r.q.answerHTML+'</span></span></div>'+
+    (r.why?'<p>'+r.why.en+' <span class="zh">'+r.why.zh+'</span></p>':'')+'</div>').join('');
+  app.innerHTML=
+   '<header><p class="eyebrow">'+esc(MODES[S.mode])+' · finished</p><h1 class="score">'+score+' <span>/ '+total+'</span></h1><p class="lede">'+msg+'</p></header>'+
+   '<section class="cats">'+cats+'</section>'+
+   (wrong.length?'<section><h3 class="sec">My mistakes <span class="zh">错题</span></h3><div class="mist">'+mist+'</div></section>':'')+
+   '<div class="actions">'+(wrong.length?'<button class="btn primary" data-action="retry" id="retry">Try my mistakes again</button>':'')+'<button class="btn" data-action="home" id="done">Done</button></div>'+
+   '<p class="parent">Show this screen to your parent. <span class="zh">做完给家长看一眼这一页。</span></p>';
+}
+
+function render(){if(S.screen==='home')renderHome();else if(S.screen==='quiz')renderQuiz();else renderEnd()}
+
+app.addEventListener('click',e=>{
+  const b=e.target.closest('[data-action]');if(!b||b.disabled)return;const a=b.dataset.action;
+  if(a==='start')startRound(b.dataset.mode);
+  else if(a==='choose')choose(+b.dataset.i);
+  else if(a==='key')keyIn(b.dataset.k);
+  else if(a==='submit')submitNumber();
+  else if(a==='next')next();
+  else if(a==='home'){S={screen:'home'};render();window.scrollTo(0,0)}
+  else if(a==='retry'){const qs=S.results.filter(r=>!r.ok).map(r=>r.q);startRound('retry',shuffle(qs))}
+});
+document.addEventListener('keydown',e=>{
+  if(S.screen!=='quiz'||e.metaKey||e.ctrlKey||e.altKey)return;const q=cur();
+  if(S.answered){if(e.key==='Enter'){e.preventDefault();next()}return}
+  if(q.kind==='choice'){const m={'1':0,'2':1,'3':2,'4':3,a:0,b:1,c:2,d:3}[e.key.toLowerCase()];if(m!==undefined){e.preventDefault();choose(m)}}
+  else{
+    if(/^\d$/.test(e.key))keyIn(e.key);
+    else if(e.key==='-'||e.key==='−')keyIn('neg');
+    else if(e.key==='/')keyIn('/');
+    else if(e.key==='.')keyIn('.');
+    else if(e.key==='Backspace'){e.preventDefault();keyIn('back')}
+    else if(e.key==='Enter'){e.preventDefault();submitNumber()}
+    else return;
+  }
+});
+if(typeof window!=='undefined')window.__mw={genWords,genReverse,genEq,genInt,genPct,parseAns,Q,qeq};
+render();
+})();
+</script>
+
+</body>
+</html>
